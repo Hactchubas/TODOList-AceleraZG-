@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -6,14 +7,23 @@ import java.util.Scanner;
 public class Manager {
     LinkedList<Task> todoList;
     public Manager(LinkedList<Task> todoList) {
+        Collections.sort(todoList, new SortByStatus());
         this.todoList = todoList;
     }
 
-    public void listTasks(){
+    public void listTasks(int listBy){
+        if(listBy == 0){
+            Collections.sort(todoList, new SortByStatus());
+        } else if (listBy == 1) {
+            Collections.sort(todoList,new SortByPriority());
+        } else {
+            Collections.sort(todoList, new SortByCategory());
+        }
         for(Task task : todoList) {
             System.out.println(task);
         }
     }
+
     public void addTask(){
         Scanner scannerString = new Scanner(System.in);
         Scanner scannerInt = new Scanner(System.in);
@@ -30,7 +40,7 @@ public class Manager {
         String[] dateAux = dueString.split("/",2);
         int[] date = {Integer.parseInt(dateAux[1])-1, Integer.parseInt(dateAux[0])};
         LocalDate now = LocalDate.now();
-        int year = now.getYear();
+        int year = now.getYear() - 1900;
         Date due = new Date(year,date[0],date[1]);
 
 
@@ -47,7 +57,7 @@ public class Manager {
         Task newTask = new Task(name, description, due, priority, category, status);
 
         todoList.add(newTask);
-
+        Collections.sort(todoList, new SortByPriority());
     }
 
     public int findByName(String name) {
@@ -159,9 +169,11 @@ public class Manager {
                     break;
                 }
             }while (intEditingStatus == null);
+            Collections.sort(todoList, new SortByPriority());
         }else {
             System.out.println("Could not find given task");
         }
+
 
     }
 

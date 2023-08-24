@@ -1,8 +1,10 @@
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Objects;
 
 public class Task {
-
     private String name;
     private String description;
     private Date due;
@@ -14,9 +16,9 @@ public class Task {
         this.name = name;
         this.description = description;
         this.due = due;
-        this.priority = priority;
+        this.priority = priority > 5 ? 0 : priority < 0 ? 0 : priority;
         this.category = category;
-        this.status = status;
+        this.status = status > 2 ? 0 : status < 0 ? 0 : status;
     }
 
     public String getName() {
@@ -69,11 +71,23 @@ public class Task {
 
     @Override
     public String toString() {
-        return  "status= " + status + "|\n" +
-                "   name= " + name + '\n' +
-                "   due= " + due + '\n' +
-                "   category= " + category;
+        int statusToParse = this.getStatus();
+        String statusString = switch (statusToParse) {
+            case 1 -> "DOING";
+            case 2 -> "DONE";
+            default -> "TO DO";
+        };
+
+        SimpleDateFormat formatDue = new SimpleDateFormat("dd/MM/yyyy");
+        String formattedDue = formatDue.format(this.getDue());
+
+        return  "status= " + statusString + "  |" +
+                "  name= " + name + "  |" +
+                "  due= " + formattedDue + "  |" +
+                "  category= " + category;
     }
+
+
 
     @Override
     public boolean equals(Object o) {
@@ -86,4 +100,17 @@ public class Task {
     public int hashCode() {
         return Objects.hash(name);
     }
+
+
+//    @Override
+//    public int compareTo(Task t) {
+////        if(methodOfComparison == 0){
+////            return Integer.compare(priority, t.getPriority());
+////        } else if(methodOfComparison == 1){
+////            return (String.CASE_INSENSITIVE_ORDER.compare(category, t.getCategory()));
+////        } else {
+////            return  Integer.compare(status, t.getStatus());
+////        }
+//        return Integer.compare(status, t.getStatus());
+//    }
 }

@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -11,9 +12,16 @@ public class Menu {
     }
 
     public void run(){
-        Date now = new Date(2023,8,20);
-        Task task = new Task("Varrer a casa","Varrer toda casa", now,4, "Casa", 0);
-        todoList.add(task);
+        Date now = new Date(2023-1900,8,20);
+        Task task1 = new Task("Varrer a casa1","Varrer toda casa", now,1, "Casad", 4);
+        Task task2 = new Task("Varrer a casa2","Varrer toda casa", now,2, "Casac", 2);
+        Task task3 = new Task("Varrer a casa3","Varrer toda casa", now,3, "Casab", 0);
+        Task task4 = new Task("Varrer a casa4","Varrer toda casa", now,4, "Casaa", 1);
+        todoList.add(task3);
+        todoList.add(task4);
+        todoList.add(task1);
+        todoList.add(task2);
+        Collections.sort(todoList,new SortByPriority());
 
         Manager manager = new Manager(todoList);
         Scanner scanner = new Scanner(System.in);
@@ -31,7 +39,13 @@ public class Menu {
 
             switch (scanner.nextInt()) {
                 case 1:
-                    manager.listTasks();
+                    System.out.println("""
+                            List by:
+                               Status, press 0
+                               Priority, press 1
+                               Category, press 2""");
+                    int listBy = scanner.nextInt();
+                    manager.listTasks(listBy);
                     break;
                 case 2:
                     manager.addTask();

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -9,7 +10,7 @@ public class Main {
 
         LinkedList<Task> todoList = new LinkedList<>();
         Menu menu = new Menu(todoList);
-
+        
         menu.run();
 
     }
