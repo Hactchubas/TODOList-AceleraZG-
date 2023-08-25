@@ -16,10 +16,8 @@ public class Manager {
         } else {
             Collections.sort(todoList, new CompareByStatus());
         }
-        int taskOrderNum = 1;
         for(Task task : todoList) {
-            System.out.println(taskOrderNum + " " + task);
-            taskOrderNum++;
+            System.out.println(task);
         }
     }
 
