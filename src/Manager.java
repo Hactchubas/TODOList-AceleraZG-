@@ -1,23 +1,20 @@
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Manager {
     LinkedList<Task> todoList;
     public Manager(LinkedList<Task> todoList) {
-        Collections.sort(todoList, new SortByStatus());
+        Collections.sort(todoList, new CompareByStatus());
         this.todoList = todoList;
     }
 
     public void listTasks(int listBy){
-        if(listBy == 0){
-            Collections.sort(todoList, new SortByStatus());
+        if(listBy == 2){
+            Collections.sort(todoList, new CompareByCategory());
         } else if (listBy == 1) {
-            Collections.sort(todoList,new SortByPriority());
+            Collections.sort(todoList,new CompareByPriority());
         } else {
-            Collections.sort(todoList, new SortByCategory());
+            Collections.sort(todoList, new CompareByStatus());
         }
         for(Task task : todoList) {
             System.out.println(task);
@@ -28,36 +25,62 @@ public class Manager {
         Scanner scannerString = new Scanner(System.in);
         Scanner scannerInt = new Scanner(System.in);
         System.out.println("New task:\n" +
-                "   Name: ");
+                "Name: ");
 
         String name = scannerString.nextLine();
 
-        System.out.println("    Description: ");
+        System.out.println("Description: ");
         String description = scannerString.nextLine();
 
-        System.out.println("    Due (day/month): ");
-        String dueString = scannerString.nextLine();
-        String[] dateAux = dueString.split("/",2);
-        int[] date = {Integer.parseInt(dateAux[1])-1, Integer.parseInt(dateAux[0])};
-        LocalDate now = LocalDate.now();
-        int year = now.getYear() - 1900;
-        Date due = new Date(year,date[0],date[1]);
+        System.out.println("Due (day/month): ");
+        Date due;
+        do {
+            String dueString = scannerString.nextLine();
+            String[] dateAux = dueString.split("/", 2);
+            try {
+                int[] date = {Integer.parseInt(dateAux[1]) - 1, Integer.parseInt(dateAux[0])};
+                LocalDate now = LocalDate.now();
+                int year = now.getYear() - 1900;
+                due = new Date(year, date[0], date[1]);
+                break;
+            } catch (ArrayIndexOutOfBoundsException err) {
+                System.out.println("Please enter a valid date format [day/month]: ");
+            }
+        } while (true);
 
 
+        System.out.println("Priority[int]: ");
+        int priority;
+        do {
+            String priorityString = scannerString.nextLine();
+            try {
+                priority = Integer.parseInt(priorityString);
+                break;
+            } catch (NumberFormatException err){
+                System.out.println("Please enter a valid number [1-5]: ");
+            }
+        } while (true);
 
-        System.out.println("    Priority[int]: ");
-        int priority = scannerInt.nextInt();
 
-        System.out.println("    Category: ");
+        System.out.println("Category: ");
         String category = scannerString.nextLine();
 
-        System.out.println("    Status[int]: ");
-        int status = scannerInt.nextInt();
+        System.out.println("Status[int]: ");
+        int status;
+        do {
+            String statusString = scannerString.nextLine();
+            try{
+                status = Integer.parseInt(statusString);
+                break;
+            } catch (NumberFormatException err){
+                System.out.println("Please enter a valid number [0-2]: ");
+            }
+        } while (true);
 
         Task newTask = new Task(name, description, due, priority, category, status);
 
         todoList.add(newTask);
-        Collections.sort(todoList, new SortByPriority());
+        Collections.sort(todoList, new CompareByPriority());
     }
 
     public int findByName(String name) {
@@ -169,7 +192,7 @@ public class Manager {
                     break;
                 }
             }while (intEditingStatus == null);
-            Collections.sort(todoList, new SortByPriority());
+            Collections.sort(todoList, new CompareByPriority());
         }else {
             System.out.println("Could not find given task");
         }

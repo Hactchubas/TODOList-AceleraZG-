@@ -21,7 +21,7 @@ public class Menu {
         todoList.add(task4);
         todoList.add(task1);
         todoList.add(task2);
-        Collections.sort(todoList,new SortByPriority());
+        Collections.sort(todoList,new CompareByPriority());
 
         Manager manager = new Manager(todoList);
         Scanner scanner = new Scanner(System.in);
@@ -44,7 +44,16 @@ public class Menu {
                                Status, press 0
                                Priority, press 1
                                Category, press 2""");
-                    int listBy = scanner.nextInt();
+                    String listByString = scanner.nextLine();
+                    int listBy;
+                    do {
+                        try {
+                            listBy = Integer.parseInt(listByString);
+                            break;
+                        } catch (NumberFormatException err) {
+                            System.out.println("Please enter a valid number");
+                        }
+                    } while (true);
                     manager.listTasks(listBy);
                     break;
                 case 2:
