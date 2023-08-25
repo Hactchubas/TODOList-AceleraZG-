@@ -13,10 +13,10 @@ public class Menu {
 
     public void run(){
         Date now = new Date(2023-1900,8,20);
-        Task task1 = new Task("Varrer a casa1","Varrer toda casa", now,1, "Casad", 4);
-        Task task2 = new Task("Varrer a casa2","Varrer toda casa", now,2, "Casac", 2);
-        Task task3 = new Task("Varrer a casa3","Varrer toda casa", now,3, "Casab", 0);
-        Task task4 = new Task("Varrer a casa4","Varrer toda casa", now,4, "Casaa", 1);
+        Task task1 = new Task("Varrer a casa","Varrer toda casa antes que minha mulher chegue", now,1, "Casa", 4);
+        Task task2 = new Task("Passear com a Brisa","Passear com a Brisa pra bixinha fazer as necessidades dela", now,2, "Brisa", 2);
+        Task task3 = new Task("Terminar a atividade da trilha de java","Terminar de fazer o MVP da aplicação de TODOList em java da trilha de java do AceleraZg", now,5, "AceleraZg", 1);
+        Task task4 = new Task("Assistir Barbie","Assistir barbie no cinema Iguatemi", now,1, "Lazer", 0);
         todoList.add(task3);
         todoList.add(task4);
         todoList.add(task1);
@@ -37,16 +37,17 @@ public class Menu {
                        Press 5 to exit"""
             );
 
-            switch (scanner.nextInt()) {
-                case 1:
+            switch (scanner.nextLine()) {
+                case "1":
                     System.out.println("""
                             List by:
                                Status, press 0
                                Priority, press 1
                                Category, press 2""");
-                    String listByString = scanner.nextLine();
+
                     int listBy;
                     do {
+                        String listByString = scanner.nextLine();
                         try {
                             listBy = Integer.parseInt(listByString);
                             break;
@@ -55,17 +56,33 @@ public class Menu {
                         }
                     } while (true);
                     manager.listTasks(listBy);
+
+                    do {
+                        System.out.println("To see task full info, write it's name or 'quit' to exit: ");
+                        String name = scanner.nextLine();
+                        if (name.equals("quit")) {
+                            break;
+                        } else {
+                            int index = manager.findByName(name);
+                            if (index == -1) {
+                                System.out.println("Could not find given task name");
+                            }else {
+                                System.out.println(todoList.get(index).completeInfo());
+                            }
+                        }
+                    } while (true);
+
                     break;
-                case 2:
+                case "2":
                     manager.addTask();
                     break;
-                case 3:
+                case "3":
                     manager.editTask();
                     break;
-                case 4:
+                case "4":
                     manager.removeTask();
                     break;
-                case 5:
+                case "5":
                     run = false;
                     break;
                 default:

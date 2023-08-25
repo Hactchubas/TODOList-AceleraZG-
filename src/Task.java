@@ -81,13 +81,18 @@ public class Task {
         SimpleDateFormat formatDue = new SimpleDateFormat("dd/MM/yyyy");
         String formattedDue = formatDue.format(this.getDue());
 
-        return  "status= " + statusString + "  |" +
-                "  name= " + name + "  |" +
-                "  due= " + formattedDue + "  |" +
-                "  category= " + category;
+        return  "Status= " + statusString + "\n" +
+                "  Name:        " + name + "\n" +
+                "  Due:         " + formattedDue + "\n" +
+                "  Category:    " + category + "\n";
     }
 
-
+    public String completeInfo(){
+        String completeInfo = this.toString();
+        return  completeInfo +
+                "  Priority:    " + this.priority + "\n" +
+                "  Description: " + this.description + "\n";
+    }
 
     @Override
     public boolean equals(Object o) {
