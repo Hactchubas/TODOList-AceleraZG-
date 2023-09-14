@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODOList AceleraZG</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="jQuery.js" defer></script>
+    <script src="main.js" defer></script>
+</head>
+
+<body>
+
+    <h1>My TODOs</h1>
+    <section>
+        <form action="">
+            <input type="text" name="name" id="new_task_name" placeholder="Task name">
+            <span>
+                <label for="date">Due:</label>
+                <input type="date" name="due" id="new_task_due">
+            </span>
+            <input type="text" name="category" id="new_task_category" placeholder="Category">
+
+            <select name="priority" id="new_task_priority" sele>
+                <option value="" disabled selected>Select this task's priority</option>
+                <option value="Very Low">Very Low</option>
+                <option value="Low"> Low</option>
+                <option value="Must">Must</option>
+                <option value="High">High</option>
+                <option value="Urgent">Urgent</option>
+            </select>
+
+            <span>
+                <label for="description">Description:</label>
+                <textarea name="description" id="new_task_description" cols="20" rows="2">
+                </textarea>
+            </span>
+
+        </form>
+        <button id="submit_task">
+            Register task
+        </button>
+    </section>
+
+    <hr>
+
+    <section id="task_list">
+
+        <!-- <ul class="filters">
+            <li>Status</li>
+            <li>Due</li>
+            <li>Category</li>
+            <li>Priority</li>
+        </ul> -->
+
+        <article class="task" id="Passear com a Brisa">
+            <div class="task_main">
+                <h3>Passear com a Brisa</h3>
+                <p>Passear com a pobi pra fazer as Necessidades dela</p>
+            </div>
+            <div class="task_info">
+                <div class="task_details">
+                    <p>15/09/2023</p>
+                    <p>Brisa</p>
+                    <p>High</p>
+                </div>
+                <div class="task_actions">
+                    <button class="edit_task">
+                        <img src="./assets/pencil.png">
+                    </button>
+                    <button class="delete_task">
+                        <img src="./assets/bin.png">
+                    </button>
+                </div>
+            </div>
+
+        </article>
+        <article class="task" id="Dormir">
+            <div class="task_main">
+                <h3>Dormir</h3>
+                <p>Porque dormir é bom né</p>
+            </div>
+            <div class="task_info">
+                <div class="task_details">
+                    <p>13/09/2023</p>
+                    <p>Necessidades basicas</p>
+                    <p>Very Low</p>
+                </div>
+                <div class="task_actions">
+                    <button class="edit_task">
+                        <img src="./assets/pencil.png">
+                    </button>
+                    <button class="delete_task">
+                        <img src="./assets/bin.png">
+                    </button>
+                </div>
+            </div>
+            <!-- <div>Setinha</div> -->
+        </article>
+        <article class="task" id="Terminar a trilha de JS">
+            <div class="task_main">
+                <h3>Terminar a trilha de JS</h3>
+                <p>Acabar logo isso que tô atrasado</p>
+            </div>
+            <div class="task_info">
+                <div class="task_details">
+                    <p>16/09/2023</p>
+                    <p>Acelera ZG</p>
+                    <p>Urgent</p>
+                </div>
+                <div class="task_actions">
+                    <button class="edit_task">
+                        <img src="./assets/pencil.png">
+                    </button>
+                    <button class="delete_task">
+                        <img src="./assets/bin.png">
+                    </button>
+                </div>
+            </div>
+            <!-- <div>Setinha</div> -->
+        </article>
+    </Section>
+
+</body>
+
+</html>

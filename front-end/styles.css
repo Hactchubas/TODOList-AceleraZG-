@@ -1,0 +1,111 @@
+*{
+    /* outline: red dashed 1px; */
+    margin: 0px;
+    padding: 0px;
+    
+}
+
+body > h1{
+    margin: 1em;
+    text-align: center;
+}
+
+form{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: start;
+    align-items: center;
+
+    gap: 10px;
+    padding: 5px;
+
+    background-color: lightgray;
+}
+
+form > span{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+}
+
+input, textarea{
+    border-radius: 5px;
+    height: 1.5em;
+    padding: 5px;
+}
+
+select{
+    border-radius: 5px;
+    height: 2.5em;
+    padding: 5px;
+}
+
+.filters{
+    list-style: none;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+    
+    
+}
+
+.filters > li {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.task{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+    gap: 10px;
+    outline: black solid 1px;
+    border-radius: 5px;
+    padding: 10px;
+
+}
+
+.task > h3{
+    width: max-content;
+    margin-left: 1em;
+}
+
+.task_info{
+    width: 30%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.task_details{
+    flex-grow: 1;
+    text-align: right;
+    padding: 0px 0.5em;       
+}
+
+.task_actions{
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 0.2em;
+}
+
+section{
+    display: flex;
+    justify-content: center;
+    flex-flow: column nowrap;
+    gap: 20px;
+    
+    margin: 2em 0.5em;
+}
+
+button{
+    background-color: lightgrey;
+    border-radius: 5px;
+    
+}
