@@ -25,3 +25,5 @@ To run the Console-Based To-Do List Application, follow these steps:
 3. Compile the application using the provided build script or your preferred Java compiler.
 4. Run the application from your terminal using the specified command. Obs.: The main class for this application is the "Main" class.
 
+- **Front-end:** To run the front-end part of this application as it is now, just loading the "index.html" file in your browser should be enough"
+
