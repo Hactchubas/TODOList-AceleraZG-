@@ -31,6 +31,8 @@ public class Persistence {
             todoList.add(task);
             System.out.println(task.completeInfo());
         }
+
+        br.close();
     }
 
 }

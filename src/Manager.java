@@ -16,7 +16,7 @@ public class Manager {
         } else {
             Collections.sort(todoList, new CompareByStatus());
         }
-        int taskOrderNum = 1;
+        // int taskOrderNum = 1;
         for(Task task : todoList) {
             System.out.println(task);
         }
@@ -82,6 +82,9 @@ public class Manager {
 
         todoList.add(newTask);
         Collections.sort(todoList, new CompareByPriority());
+
+        scannerString.close();
+        scannerInt.close();
     }
 
     public int findByName(String name) {
@@ -110,6 +113,8 @@ public class Manager {
         }else {
             System.out.println("Could not find given task");
         }
+
+        scanner.close();
     }
 
     public void editTask(){
@@ -194,11 +199,13 @@ public class Manager {
                 }
             }while (intEditingStatus == null);
             Collections.sort(todoList, new CompareByPriority());
+
+            scannerString.close();
         }else {
             System.out.println("Could not find given task");
         }
 
-
+        scanner.close();
     }
 
 }
