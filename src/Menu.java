@@ -1,4 +1,6 @@
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
@@ -7,24 +9,16 @@ import java.util.Scanner;
 public class Menu {
 
     LinkedList<Task> todoList;
+    Scanner scanner = new Scanner(System.in);
+    Scanner scannerInt = new Scanner(System.in);
+
     public Menu(LinkedList<Task> todoList){
         this.todoList = todoList;
     }
 
     public void run(){
-        Date now = new Date(2023-1900,8,20);
-        Task task1 = new Task("Varrer a casa","Varrer toda casa antes que minha mulher chegue", now,1, "Casa", 4);
-        Task task2 = new Task("Passear com a Brisa","Passear com a Brisa pra bixinha fazer as necessidades dela", now,2, "Brisa", 2);
-        Task task3 = new Task("Terminar a atividade da trilha de java","Terminar de fazer o MVP da aplicação de TODOList em java da trilha de java do AceleraZg", now,5, "AceleraZg", 1);
-        Task task4 = new Task("Assistir Barbie","Assistir barbie no cinema Iguatemi", now,1, "Lazer", 0);
-        todoList.add(task3);
-        todoList.add(task4);
-        todoList.add(task1);
-        todoList.add(task2);
         Collections.sort(todoList,new CompareByPriority());
-
         Manager manager = new Manager(todoList);
-        Scanner scanner = new Scanner(System.in);
 
         boolean run= true;
         while (run) {
@@ -74,22 +68,185 @@ public class Menu {
 
                     break;
                 case "2":
-                    manager.addTask();
+                    Task newTask = inputNewTask();
+                    manager.addTask(newTask);
                     break;
                 case "3":
-                    manager.editTask();
+                    System.out.println("Task name you'd like to edit: ");
+                    for (Task task : todoList){
+                        System.out.println(task.getName());
+                    }
+                    String name = scanner.nextLine();
+
+                    int editingTaskOfIndex =  manager.findByName(name);
+
+                    Task taskAux = inputEditTask(manager, editingTaskOfIndex);
+                    manager.editTask(taskAux, editingTaskOfIndex);
                     break;
                 case "4":
-                    manager.removeTask();
+                    int removingTaskOfIndex = inputRemoveTask(manager);
+                    manager.removeTask(removingTaskOfIndex);
                     break;
                 case "5":
                     run = false;
+                    scanner.close();
                     break;
                 default:
                     break;
             }
+
         }
 
-        scanner.close();
+    }
+
+    private Task inputNewTask(){
+        System.out.println("New task:\n" +
+                "Name: ");
+
+        String name = scanner.nextLine();
+
+        System.out.println("Description: ");
+        String description = scanner.nextLine();
+
+        System.out.println("Due (day/month/year): ");
+        Date due;
+        do {
+            String dueString = scanner.nextLine();
+            String[] dateAux = dueString.split("/", 3);
+            try {
+                int[] date = {Integer.parseInt(dateAux[2])-1900,Integer.parseInt(dateAux[1]) - 1, Integer.parseInt(dateAux[0])};
+//
+                due = new Date(date[0], date[1], date[2]);
+                break;
+            } catch (ArrayIndexOutOfBoundsException err) {
+                System.out.println("Please enter a valid date format [day/month/year]: ");
+            }
+        } while (true);
+
+
+        System.out.println("Priority[int]: ");
+        int priority;
+        do {
+            String priorityString = scanner.nextLine();
+            try {
+                priority = Integer.parseInt(priorityString);
+                break;
+            } catch (NumberFormatException err){
+                System.out.println("Please enter a valid number [1-5]: ");
+            }
+        } while (true);
+
+
+        System.out.println("Category: ");
+        String category = scanner.nextLine();
+
+        System.out.println("Status[int]: ");
+        int status;
+        do {
+            String statusString = scanner.nextLine();
+            try{
+                status = Integer.parseInt(statusString);
+                break;
+            } catch (NumberFormatException err){
+                System.out.println("Please enter a valid number [0-2]: ");
+            }
+        } while (true);
+
+        Task newTask = new Task(name, description, due, priority, category, status);
+        return  newTask;
+    }
+    private int inputRemoveTask(Manager manager){
+        System.out.println("Task name you´d like to remove: ");
+        for (Task task : todoList){
+            System.out.println(task.getName());
+        }
+        String name = scanner.nextLine();
+
+        return manager.findByName(name);
+    }
+    private Task inputEditTask(Manager manager, int index){
+        Task taskAux = new Task("Aux","Aux", new Date(),0,"Aux", 0);
+
+        if(index >= 0){
+
+            Task editingTask = todoList.get(index);
+
+            System.out.println("Name [" + editingTask.getName() + "]: ");
+            String editingName = scanner.nextLine();
+            if(!editingName.isEmpty()){
+                taskAux.setName(editingName);
+            }
+
+            System.out.println("Description  [" + editingTask.getDescription() + "]: ");
+            String editingDescription = scanner.nextLine();
+            if(!editingDescription.isEmpty()){
+                taskAux.setDescription(editingDescription);
+            }
+
+            SimpleDateFormat formatDue = new SimpleDateFormat("dd/MM/yyyy");
+            String formattedDue = formatDue.format(editingTask.getDue());
+
+            System.out.println("Due (day/month) [" + formattedDue + "]: ");
+            String editingDueString = scanner.nextLine();
+            if(!editingDueString.isEmpty()){
+                String[] dateAux = editingDueString.split("/",2);
+                int[] date = {Integer.parseInt(dateAux[1])-1, Integer.parseInt(dateAux[0])};
+                LocalDate now = LocalDate.now();
+                int year = now.getYear();
+                Date editingDue = new Date(year,date[0],date[1]);
+                taskAux.setDue(editingDue);
+            }
+
+            System.out.println("Priority [" + editingTask.getPriority() + "]: ");
+            Integer intEditingPriority = null;
+            do {
+                String editingPriority = scanner.nextLine();
+
+                if(!editingPriority.isEmpty()){
+
+                    try{
+                        intEditingPriority = Integer.parseInt(editingPriority);
+                        taskAux.setPriority(intEditingPriority);
+                    } catch (NumberFormatException exp) {
+                        System.out.println(editingPriority + " is not a valid input\n" +
+                                "Priority [" + editingTask.getPriority() + "]: ");
+
+                    }
+                }else {
+                    break;
+                }
+            }while (intEditingPriority == null);
+
+            System.out.println("Category [" + editingTask.getCategory() + "]: ");
+            String editingCategory = scanner.nextLine();
+            if (!editingCategory.isEmpty()){
+                taskAux.setCategory(editingCategory);
+            }
+
+            System.out.println("Status [" + editingTask.getStatus() + "]");
+            Integer intEditingStatus = null;
+            do {
+                String editingStatus = scanner.nextLine();
+
+                if(!editingStatus.isEmpty()){
+                    try{
+                        intEditingStatus = Integer.parseInt(editingStatus);
+                        taskAux.setStatus(intEditingStatus);
+                    } catch (NumberFormatException exp) {
+                        System.out.println(editingStatus + " is not a valid input\n" +
+                                "Status [" + editingTask.getStatus() + "]: ");
+
+                    }
+                } else {
+                    break;
+                }
+            }while (intEditingStatus == null);
+            Collections.sort(todoList, new CompareByPriority());
+
+
+        }else {
+            System.out.println("Could not find given task");
+        }
+        return taskAux;
     }
 }

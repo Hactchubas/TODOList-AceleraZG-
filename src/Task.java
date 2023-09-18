@@ -104,16 +104,12 @@ public class Task {
         return Objects.hash(name);
     }
 
-
-//    @Override
-//    public int compareTo(Task t) {
-////        if(methodOfComparison == 0){
-////            return Integer.compare(priority, t.getPriority());
-////        } else if(methodOfComparison == 1){
-////            return (String.CASE_INSENSITIVE_ORDER.compare(category, t.getCategory()));
-////        } else {
-////            return  Integer.compare(status, t.getStatus());
-////        }
-//        return Integer.compare(status, t.getStatus());
-//    }
+    public void copyTaskInfo(Task taskAux){
+        this.setName(taskAux.getName());
+        this.setDescription((taskAux.getDescription()));
+        this.setDue(taskAux.getDue());
+        this.setPriority(taskAux.getPriority());
+        this.setCategory(taskAux.getCategory());
+        this.setStatus(taskAux.getStatus());
+    }
 }
