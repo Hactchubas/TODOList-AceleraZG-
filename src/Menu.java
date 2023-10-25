@@ -79,7 +79,7 @@ public class Menu {
                     String name = scanner.nextLine();
 
                     int editingTaskOfIndex =  manager.findByName(name);
-
+                    System.out.println(editingTaskOfIndex);
                     Task taskAux = inputEditTask(manager, editingTaskOfIndex);
                     manager.editTask(taskAux, editingTaskOfIndex);
                     break;
@@ -175,12 +175,16 @@ public class Menu {
             String editingName = scanner.nextLine();
             if(!editingName.isEmpty()){
                 taskAux.setName(editingName);
+            } else{
+                taskAux.setName(editingTask.getName());
             }
 
             System.out.println("Description  [" + editingTask.getDescription() + "]: ");
             String editingDescription = scanner.nextLine();
             if(!editingDescription.isEmpty()){
                 taskAux.setDescription(editingDescription);
+            }else{
+                taskAux.setDescription(editingTask.getDescription());
             }
 
             SimpleDateFormat formatDue = new SimpleDateFormat("dd/MM/yyyy");
@@ -195,6 +199,8 @@ public class Menu {
                 int year = now.getYear();
                 Date editingDue = new Date(year,date[0],date[1]);
                 taskAux.setDue(editingDue);
+            }else{
+                taskAux.setDue(editingTask.getDue());
             }
 
             System.out.println("Priority [" + editingTask.getPriority() + "]: ");
@@ -213,6 +219,7 @@ public class Menu {
 
                     }
                 }else {
+                    taskAux.setPriority(editingTask.getPriority());
                     break;
                 }
             }while (intEditingPriority == null);
@@ -221,6 +228,8 @@ public class Menu {
             String editingCategory = scanner.nextLine();
             if (!editingCategory.isEmpty()){
                 taskAux.setCategory(editingCategory);
+            }else{
+                taskAux.setCategory(editingTask.getCategory());
             }
 
             System.out.println("Status [" + editingTask.getStatus() + "]");
@@ -238,6 +247,7 @@ public class Menu {
 
                     }
                 } else {
+                    taskAux.setStatus(editingTask.getStatus());
                     break;
                 }
             }while (intEditingStatus == null);
