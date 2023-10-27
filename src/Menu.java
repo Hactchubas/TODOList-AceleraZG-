@@ -72,22 +72,23 @@ public class Menu {
                     manager.addTask(newTask);
                     break;
                 case "3":
-                    do {
-                        System.out.println("Task name you'd like to edit: ");
-                        for (Task task : todoList) {
-                            System.out.println(task.getName());
-                        }
-                        String name = scanner.nextLine();
+                    System.out.println("Task name you'd like to edit: ");
+                    for (Task task : todoList){
+                        System.out.println(task.getName());
+                    }
+                    String name = scanner.nextLine();
 
-                        int editingTaskOfIndex = manager.findByName(name);
-                        if(editingTaskOfIndex >= 0) {
-                            Task taskAux = inputEditTask(manager, editingTaskOfIndex);
-                            manager.editTask(taskAux, editingTaskOfIndex);
-                            break;
-                        } else {
-                            System.out.println("Given task name does not exist.\n");
-                        }
-                    } while (true);
+                    int editingTaskOfIndex =  manager.findByName(name);
+                    System.out.println(editingTaskOfIndex);
+
+
+                    if(editingTaskOfIndex >= 0){
+                        Task taskAux = inputEditTask(manager, editingTaskOfIndex);
+                        manager.editTask(taskAux, editingTaskOfIndex);
+                    }else {
+                        System.out.println("Could not find given task");
+                    }
+
                     break;
                 case "4":
                     int removingTaskOfIndex = inputRemoveTask(manager);
@@ -173,94 +174,90 @@ public class Menu {
     private Task inputEditTask(Manager manager, int index){
         Task taskAux = new Task("Aux","Aux", new Date(),0,"Aux", 0);
 
-        if(index >= 0){
+        Task editingTask = todoList.get(index);
 
-            Task editingTask = todoList.get(index);
-
-            System.out.println("Name [" + editingTask.getName() + "]: ");
-            String editingName = scanner.nextLine();
-            if(!editingName.isEmpty()){
-                taskAux.setName(editingName);
-            } else{
-                taskAux.setName(editingTask.getName());
-            }
-
-            System.out.println("Description  [" + editingTask.getDescription() + "]: ");
-            String editingDescription = scanner.nextLine();
-            if(!editingDescription.isEmpty()){
-                taskAux.setDescription(editingDescription);
-            }else{
-                taskAux.setDescription(editingTask.getDescription());
-            }
-
-            SimpleDateFormat formatDue = new SimpleDateFormat("dd/MM/yyyy");
-            String formattedDue = formatDue.format(editingTask.getDue());
-
-            System.out.println("Due (day/month/year) [" + formattedDue + "]: ");
-            String editingDueString = scanner.nextLine();
-            if(!editingDueString.isEmpty()){
-                String[] dateAux = editingDueString.split("/",3);
-                int[] date = {Integer.parseInt(dateAux[2])-1900,Integer.parseInt(dateAux[1]) - 1, Integer.parseInt(dateAux[0])};
-                Date editingDue = new Date(date[0],date[1],date[2]);
-                taskAux.setDue(editingDue);
-            }else{
-                taskAux.setDue(editingTask.getDue());
-            }
-
-            System.out.println("Priority [" + editingTask.getPriority() + "]: ");
-            Integer intEditingPriority = null;
-            do {
-                String editingPriority = scanner.nextLine();
-
-                if(!editingPriority.isEmpty()){
-
-                    try{
-                        intEditingPriority = Integer.parseInt(editingPriority);
-                        taskAux.setPriority(intEditingPriority);
-                    } catch (NumberFormatException exp) {
-                        System.out.println(editingPriority + " is not a valid input\n" +
-                                "Priority [" + editingTask.getPriority() + "]: ");
-
-                    }
-                }else{
-                    taskAux.setPriority(editingTask.getPriority());
-                    break;
-                }
-            }while (intEditingPriority == null);
-
-            System.out.println("Category [" + editingTask.getCategory() + "]: ");
-            String editingCategory = scanner.nextLine();
-            if (!editingCategory.isEmpty()){
-                taskAux.setCategory(editingCategory);
-            }else{
-                taskAux.setCategory(editingTask.getCategory());
-            }
-
-            System.out.println("Status [" + editingTask.getStatus() + "]");
-            Integer intEditingStatus = null;
-            do {
-                String editingStatus = scanner.nextLine();
-
-                if(!editingStatus.isEmpty()){
-                    try{
-                        intEditingStatus = Integer.parseInt(editingStatus);
-                        taskAux.setStatus(intEditingStatus);
-                    } catch (NumberFormatException exp) {
-                        System.out.println(editingStatus + " is not a valid input\n" +
-                                "Status [" + editingTask.getStatus() + "]: ");
-
-                    }
-                } else {
-                    taskAux.setStatus(editingTask.getStatus());
-                    break;
-                }
-            }while (intEditingStatus == null);
-            Collections.sort(todoList, new CompareByPriority());
-
-
-        }else {
-            System.out.println("Could not find given task");
+        System.out.println("Name [" + editingTask.getName() + "]: ");
+        String editingName = scanner.nextLine();
+        if(!editingName.isEmpty()){
+            taskAux.setName(editingName);
+        } else{
+            taskAux.setName(editingTask.getName());
         }
+
+        System.out.println("Description  [" + editingTask.getDescription() + "]: ");
+        String editingDescription = scanner.nextLine();
+        if(!editingDescription.isEmpty()){
+            taskAux.setDescription(editingDescription);
+        }else{
+            taskAux.setDescription(editingTask.getDescription());
+        }
+
+        SimpleDateFormat formatDue = new SimpleDateFormat("dd/MM/yyyy");
+        String formattedDue = formatDue.format(editingTask.getDue());
+
+        System.out.println("Due (day/month) [" + formattedDue + "]: ");
+        String editingDueString = scanner.nextLine();
+        if(!editingDueString.isEmpty()){
+            String[] dateAux = editingDueString.split("/",2);
+            int[] date = {Integer.parseInt(dateAux[1])-1, Integer.parseInt(dateAux[0])};
+            LocalDate now = LocalDate.now();
+            int year = now.getYear();
+            Date editingDue = new Date(year,date[0],date[1]);
+            taskAux.setDue(editingDue);
+        }else{
+            taskAux.setDue(editingTask.getDue());
+        }
+
+        System.out.println("Priority [" + editingTask.getPriority() + "]: ");
+        Integer intEditingPriority = null;
+        do {
+            String editingPriority = scanner.nextLine();
+
+            if(!editingPriority.isEmpty()){
+
+                try{
+                    intEditingPriority = Integer.parseInt(editingPriority);
+                    taskAux.setPriority(intEditingPriority);
+                } catch (NumberFormatException exp) {
+                    System.out.println(editingPriority + " is not a valid input\n" +
+                            "Priority [" + editingTask.getPriority() + "]: ");
+
+                }
+            }else {
+                taskAux.setPriority(editingTask.getPriority());
+                break;
+            }
+        }while (intEditingPriority == null);
+
+        System.out.println("Category [" + editingTask.getCategory() + "]: ");
+        String editingCategory = scanner.nextLine();
+        if (!editingCategory.isEmpty()){
+            taskAux.setCategory(editingCategory);
+        }else{
+            taskAux.setCategory(editingTask.getCategory());
+        }
+
+        System.out.println("Status [" + editingTask.getStatus() + "]");
+        Integer intEditingStatus = null;
+        do {
+            String editingStatus = scanner.nextLine();
+
+            if(!editingStatus.isEmpty()){
+                try{
+                    intEditingStatus = Integer.parseInt(editingStatus);
+                    taskAux.setStatus(intEditingStatus);
+                } catch (NumberFormatException exp) {
+                    System.out.println(editingStatus + " is not a valid input\n" +
+                            "Status [" + editingTask.getStatus() + "]: ");
+
+                }
+            } else {
+                taskAux.setStatus(editingTask.getStatus());
+                break;
+            }
+        }while (intEditingStatus == null);
+        Collections.sort(todoList, new CompareByPriority());
+
         return taskAux;
     }
 }
