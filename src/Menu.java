@@ -10,7 +10,6 @@ public class Menu {
 
     LinkedList<Task> todoList;
     Scanner scanner = new Scanner(System.in);
-    Scanner scannerInt = new Scanner(System.in);
 
     public Menu(LinkedList<Task> todoList){
         this.todoList = todoList;
@@ -195,18 +194,26 @@ public class Menu {
         SimpleDateFormat formatDue = new SimpleDateFormat("dd/MM/yyyy");
         String formattedDue = formatDue.format(editingTask.getDue());
 
-        System.out.println("Due (day/month) [" + formattedDue + "]: ");
-        String editingDueString = scanner.nextLine();
-        if(!editingDueString.isEmpty()){
-            String[] dateAux = editingDueString.split("/",2);
-            int[] date = {Integer.parseInt(dateAux[1])-1, Integer.parseInt(dateAux[0])};
-            LocalDate now = LocalDate.now();
-            int year = now.getYear();
-            Date editingDue = new Date(year,date[0],date[1]);
-            taskAux.setDue(editingDue);
-        }else{
-            taskAux.setDue(editingTask.getDue());
+        System.out.println("Due (day/month/year) [" + formattedDue + "]: ");
+        Date editingDue;
+        while(true) {
+            String editingDueString = scanner.nextLine();
+            if (!editingDueString.isEmpty()) {
+                String[] dateAux = editingDueString.split("/", 3);
+                try {
+                    int[] date = {Integer.parseInt(dateAux[2])-1900,Integer.parseInt(dateAux[1]) - 1, Integer.parseInt(dateAux[0])};
+                    editingDue = new Date(date[0], date[1], date[2]);
+                    taskAux.setDue(editingDue);
+                    break;
+                } catch (ArrayIndexOutOfBoundsException err) {
+                    System.out.println("Please enter a valid date format [day/month/year]: ");
+                }
+            } else {
+                taskAux.setDue(editingTask.getDue());
+            }
         }
+
+
 
         System.out.println("Priority [" + editingTask.getPriority() + "]: ");
         Integer intEditingPriority = null;
