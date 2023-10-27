@@ -40,7 +40,7 @@ public class Menu {
                                Category, press 2""");
 
                     int listBy;
-                    do {
+                    while (true){
                         String listByString = scanner.nextLine();
                         try {
                             listBy = Integer.parseInt(listByString);
@@ -48,10 +48,10 @@ public class Menu {
                         } catch (NumberFormatException err) {
                             System.out.println("Please enter a valid number");
                         }
-                    } while (true);
+                    }
                     manager.listTasks(listBy);
 
-                    do {
+                    while (true){
                         System.out.println("To see task full info, write it's name or 'quit' to exit: ");
                         String name = scanner.nextLine();
                         if (name.equals("quit")) {
@@ -64,7 +64,7 @@ public class Menu {
                                 System.out.println(todoList.get(index).completeInfo());
                             }
                         }
-                    } while (true);
+                    }
 
                     break;
                 case "2":
@@ -117,7 +117,7 @@ public class Menu {
 
         System.out.println("Due (day/month/year): ");
         Date due;
-        do {
+        while (true) {
             String dueString = scanner.nextLine();
             String[] dateAux = dueString.split("/", 3);
             try {
@@ -128,12 +128,12 @@ public class Menu {
             } catch (ArrayIndexOutOfBoundsException err) {
                 System.out.println("Please enter a valid date format [day/month/year]: ");
             }
-        } while (true);
+        }
 
 
         System.out.println("Priority[int]: ");
         int priority;
-        do {
+        while (true) {
             String priorityString = scanner.nextLine();
             try {
                 priority = Integer.parseInt(priorityString);
@@ -141,7 +141,7 @@ public class Menu {
             } catch (NumberFormatException err){
                 System.out.println("Please enter a valid number [1-5]: ");
             }
-        } while (true);
+        }
 
 
         System.out.println("Category: ");
@@ -149,7 +149,7 @@ public class Menu {
 
         System.out.println("Status[int]: ");
         int status;
-        do {
+        while (true) {
             String statusString = scanner.nextLine();
             try{
                 status = Integer.parseInt(statusString);
@@ -157,7 +157,7 @@ public class Menu {
             } catch (NumberFormatException err){
                 System.out.println("Please enter a valid number [0-2]: ");
             }
-        } while (true);
+        }
 
         Task newTask = new Task(name, description, due, priority, category, status);
         return  newTask;
@@ -210,7 +210,7 @@ public class Menu {
 
         System.out.println("Priority [" + editingTask.getPriority() + "]: ");
         Integer intEditingPriority = null;
-        do {
+        while (intEditingPriority == null) {
             String editingPriority = scanner.nextLine();
 
             if(!editingPriority.isEmpty()){
@@ -227,7 +227,7 @@ public class Menu {
                 taskAux.setPriority(editingTask.getPriority());
                 break;
             }
-        }while (intEditingPriority == null);
+        }
 
         System.out.println("Category [" + editingTask.getCategory() + "]: ");
         String editingCategory = scanner.nextLine();
@@ -239,7 +239,7 @@ public class Menu {
 
         System.out.println("Status [" + editingTask.getStatus() + "]");
         Integer intEditingStatus = null;
-        do {
+        while (intEditingStatus == null){
             String editingStatus = scanner.nextLine();
 
             if(!editingStatus.isEmpty()){
@@ -255,7 +255,7 @@ public class Menu {
                 taskAux.setStatus(editingTask.getStatus());
                 break;
             }
-        }while (intEditingStatus == null);
+        }
         Collections.sort(todoList, new CompareByPriority());
 
         return taskAux;
