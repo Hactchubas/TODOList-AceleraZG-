@@ -23,20 +23,20 @@ public class Menu {
         while (run) {
             System.out.println("""
                     TODO List handler:
-                       Press 1 to see the list
-                       Press 2 to add new Task
-                       Press 3 to edit Task
-                       Press 4 to remove Task
-                       Press 5 to exit"""
+                       1. See the list
+                       2. Add new Task
+                       3. Edit Task
+                       4. Remove Task
+                       5. Exit"""
             );
 
             switch (scanner.nextLine()) {
                 case "1":
                     System.out.println("""
                             List by:
-                               Status, press 0
-                               Priority, press 1
-                               Category, press 2""");
+                               0. Status
+                               1. Priority
+                               2. Category""");
 
                     int listBy;
                     while (true){
@@ -121,7 +121,7 @@ public class Menu {
             String[] dateAux = dueString.split("/", 3);
             try {
                 int[] date = {Integer.parseInt(dateAux[2])-1900,Integer.parseInt(dateAux[1]) - 1, Integer.parseInt(dateAux[0])};
-//
+
                 due = new Date(date[0], date[1], date[2]);
                 break;
             } catch (ArrayIndexOutOfBoundsException err) {
