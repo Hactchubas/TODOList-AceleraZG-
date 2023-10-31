@@ -1,22 +1,20 @@
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.*;
 
 public class Manager {
     LinkedList<Task> todoList;
     public Manager(LinkedList<Task> todoList) {
-        Collections.sort(todoList, new CompareByStatus());
+        todoList.sort(new CompareByStatus());
         this.todoList = todoList;
     }
 
     public void listTasks(int listBy){
         if(listBy == 2){
-            Collections.sort(todoList, new CompareByCategory());
+            todoList.sort(new CompareByCategory());
         } else if (listBy == 1) {
-            Collections.sort(todoList,new CompareByPriority());
+            todoList.sort(new CompareByPriority());
         } else {
-            Collections.sort(todoList, new CompareByStatus());
+            todoList.sort(new CompareByStatus());
         }
         // int taskOrderNum = 1;
         for(Task task : todoList) {
@@ -27,8 +25,7 @@ public class Manager {
     public void addTask(Task newTask){
 
         todoList.add(newTask);
-        Collections.sort(todoList, new CompareByPriority());
-
+        todoList.sort(new CompareByPriority());
         try {
             Persistence.writeTasks(todoList);
         } catch (IOException e) {
@@ -37,9 +34,10 @@ public class Manager {
     }
 
     public int findByName(String name) {
+        name = name.toLowerCase();
         int i = 0;
         for (Task task : todoList) {
-            if (task.getName().equals(name)) {
+            if (task.getName().toLowerCase().equals(name)) {
                 return i;
             }
             i++;
