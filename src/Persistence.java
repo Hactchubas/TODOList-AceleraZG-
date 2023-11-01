@@ -7,8 +7,8 @@ import java.util.LinkedList;
 
 public class Persistence {
 
-    public static void readTasks(LinkedList<Task> todoList) throws IOException {
-        File file = new File("src/data/registeredTasks.txt");
+    public static void readTasks(LinkedList<Task> todoList, String fileToRead) throws IOException {
+        File file = new File(fileToRead);
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line;
 
@@ -24,15 +24,14 @@ public class Persistence {
             Task task =  new Task(taskFields[0],taskFields[1],due,priority,taskFields[4],status);
 
             todoList.add(task);
-//            System.out.println(task.completeInfo());
         }
 
         br.close();
     }
 
-    public static void writeTasks(LinkedList<Task> todoList) throws IOException{
+    public static void writeTasks(LinkedList<Task> todoList, String fileToWrite) throws IOException{
 
-        File file = new File("src/data/registeredTasks.txt");
+        File file = new File(fileToWrite);
         PrintWriter printWriter = new PrintWriter(new FileWriter(file));
         for(Task task : todoList){
 
@@ -51,6 +50,36 @@ public class Persistence {
 //        System.out.println("Done");
 
         printWriter.close();
+
+    }
+
+    public  static TasksInfo initialize(String registeredTasksFile, String doneTasksFile) throws IOException {
+        LinkedList<Task> todoList = new LinkedList<>();
+        LinkedList<Task> doneList = new LinkedList<>();
+        TasksInfo tasksInfo = new TasksInfo(todoList,doneList,registeredTasksFile, doneTasksFile);
+
+        Persistence.readTasks(tasksInfo.todoList, tasksInfo.fileRegistered);
+        Persistence.readTasks(tasksInfo.doneList, tasksInfo.fileDone);
+
+        return tasksInfo;
+    }
+
+    public static void updateDoneTasks(TasksInfo tasksInfo){
+
+        for(Task task: tasksInfo.todoList){
+            if(task.getStatus() == 2){
+                tasksInfo.doneList.add(task);
+                tasksInfo.todoList.remove(task);
+
+            }
+        }
+
+        try {
+            Persistence.writeTasks(tasksInfo.doneList, tasksInfo.fileDone);
+            Persistence.writeTasks(tasksInfo.todoList, tasksInfo.fileRegistered);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }

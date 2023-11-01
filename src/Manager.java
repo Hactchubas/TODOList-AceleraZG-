@@ -3,9 +3,16 @@ import java.util.*;
 
 public class Manager {
     LinkedList<Task> todoList;
-    public Manager(LinkedList<Task> todoList) {
-        todoList.sort(new CompareByStatus());
-        this.todoList = todoList;
+    String fileRegistered;
+    String fileDone;
+
+
+    public Manager(TasksInfo tasksInfo) {
+        this.todoList = tasksInfo.todoList;
+        this.todoList.sort(new CompareByStatus());
+
+        this.fileRegistered = tasksInfo.fileRegistered;
+        this.fileDone = tasksInfo.fileDone;
     }
 
     public void listTasks(int listBy){
@@ -27,7 +34,7 @@ public class Manager {
         todoList.add(newTask);
         todoList.sort(new CompareByPriority());
         try {
-            Persistence.writeTasks(todoList);
+            Persistence.writeTasks(todoList, "src/data/registeredTasks.txt");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -54,7 +61,7 @@ public class Manager {
         }
 
         try {
-            Persistence.writeTasks(todoList);
+            Persistence.writeTasks(todoList, "src/data/registeredTasks.txt");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -66,7 +73,7 @@ public class Manager {
         editingTask.copyTaskInfo(taskAux);
 
         try {
-            Persistence.writeTasks(todoList);
+            Persistence.writeTasks(todoList, "src/data/registeredTasks.txt");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

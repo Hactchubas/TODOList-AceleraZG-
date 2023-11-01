@@ -3,16 +3,12 @@ import java.util.LinkedList;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        LinkedList<Task> todoList = new LinkedList<>();
 
-        Persistence.readTasks(todoList);
+        TasksInfo tasksInfo = Persistence.initialize("src/data/registeredTasks.txt","src/data/doneTasks.txt");
 
-        Menu menu = new Menu(todoList);
+        Menu menu = new Menu(tasksInfo);
         menu.run();
 
-        Persistence.writeTasks(todoList);
-
+        Persistence.updateDoneTasks(tasksInfo);
     }
-
-
 }

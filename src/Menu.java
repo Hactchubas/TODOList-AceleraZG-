@@ -8,20 +8,23 @@ import java.util.Scanner;
 
 public class Menu {
 
+    TasksInfo tasksInfo;
     LinkedList<Task> todoList;
     Scanner scanner = new Scanner(System.in);
 
-    public Menu(LinkedList<Task> todoList){
-        this.todoList = todoList;
+    public Menu(TasksInfo tasksInfo){
+        this.tasksInfo = tasksInfo;
+        this.todoList = this.tasksInfo.todoList;
     }
 
     public void run(){
-        Collections.sort(todoList,new CompareByPriority());
-        Manager manager = new Manager(todoList);
+        todoList.sort(new CompareByPriority());
+        Manager manager = new Manager(this.tasksInfo);
 
         boolean run= true;
         while (run) {
             System.out.println("""
+                    ||||||||||||||||||||||||||||||||||
                     TODO List handler:
                        1. See the list
                        2. Add new Task
@@ -48,21 +51,26 @@ public class Menu {
                             System.out.println("Please enter a valid number");
                         }
                     }
-                    manager.listTasks(listBy);
 
-                    while (true){
-                        System.out.println("To see task full info, write it's name or 'quit' to exit: ");
-                        String name = scanner.nextLine();
-                        if (name.equals("quit")) {
-                            break;
-                        } else {
-                            int index = manager.findByName(name);
-                            if (index == -1) {
-                                System.out.println("Could not find given task name");
-                            }else {
-                                System.out.println(todoList.get(index).completeInfo());
+                    if(!todoList.isEmpty()) {
+                        manager.listTasks(listBy);
+
+                        while (true) {
+                            System.out.println("To see task full info, write it's name or 'quit' to exit: ");
+                            String name = scanner.nextLine();
+                            if (name.equals("quit")) {
+                                break;
+                            } else {
+                                int index = manager.findByName(name);
+                                if (index == -1) {
+                                    System.out.println("Could not find given task name");
+                                } else {
+                                    System.out.println(todoList.get(index).completeInfo());
+                                }
                             }
                         }
+                    }else{
+                        System.out.println("There are no tasks registered.");
                     }
 
                     break;
@@ -210,6 +218,7 @@ public class Menu {
                 }
             } else {
                 taskAux.setDue(editingTask.getDue());
+                break;
             }
         }
 
