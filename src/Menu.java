@@ -30,7 +30,8 @@ public class Menu {
                        2. Add new Task
                        3. Edit Task
                        4. Remove Task
-                       5. Exit"""
+                       5. See list of tasks done
+                       6. Exit"""
             );
 
             switch (scanner.nextLine()) {
@@ -102,6 +103,8 @@ public class Menu {
                     manager.removeTask(removingTaskOfIndex);
                     break;
                 case "5":
+                    manager.listTasks(3);
+                case "6":
                     run = false;
                     scanner.close();
                     break;

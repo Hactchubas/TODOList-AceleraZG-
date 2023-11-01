@@ -15,8 +15,10 @@ public class Manager {
         this.fileDone = tasksInfo.fileDone;
     }
 
-    public void listTasks(int listBy){
-        if(listBy == 2){
+    public void listTasks(int listBy) {
+        if(listBy == 3){
+            todoList.sort(new CompareByDue());
+        }else if(listBy == 2){
             todoList.sort(new CompareByCategory());
         } else if (listBy == 1) {
             todoList.sort(new CompareByPriority());
@@ -34,7 +36,7 @@ public class Manager {
         todoList.add(newTask);
         todoList.sort(new CompareByPriority());
         try {
-            Persistence.writeTasks(todoList, "src/data/registeredTasks.txt");
+            Persistence.writeTasks(todoList, fileRegistered);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -61,7 +63,7 @@ public class Manager {
         }
 
         try {
-            Persistence.writeTasks(todoList, "src/data/registeredTasks.txt");
+            Persistence.writeTasks(todoList, fileRegistered);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

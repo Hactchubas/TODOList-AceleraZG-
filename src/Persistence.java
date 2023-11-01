@@ -66,13 +66,15 @@ public class Persistence {
 
     public static void updateDoneTasks(TasksInfo tasksInfo){
 
+        LinkedList<Task> toRemove = new LinkedList<>();
         for(Task task: tasksInfo.todoList){
             if(task.getStatus() == 2){
+                toRemove.add(task);
                 tasksInfo.doneList.add(task);
-                tasksInfo.todoList.remove(task);
 
             }
         }
+        tasksInfo.todoList.removeAll(toRemove);
 
         try {
             Persistence.writeTasks(tasksInfo.doneList, tasksInfo.fileDone);
