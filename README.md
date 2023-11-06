@@ -8,13 +8,13 @@ Welcome to the Java Console-Based To-Do List Application, a powerful yet lightwe
 
 ## Features
 
-- **Task Management:** Easily add, modify, and remove tasks via simple text commands. Specify task priorities, due dates, and categorize them for effective organization.
+- **classes.Task Management:** Easily add, modify, and remove tasks via simple text commands. Specify task priorities, due dates, and categorize them for effective organization.
 
 - **Intuitive Command-Line Interface:** The application boasts a user-friendly text-based interface, making it accessible for users of all levels, from beginners to command-line aficionados.
 
-- **Task Sorting:** Sort your tasks by due date, priority, or category, helping you focus on tasks that require immediate attention.
+- **classes.Task Sorting:** Sort your tasks by due date, priority, or category, helping you focus on tasks that require immediate attention.
 
-- **Task Notes:** Attach detailed notes to your tasks, providing additional context and information when necessary.
+- **classes.Task Notes:** Attach detailed notes to your tasks, providing additional context and information when necessary.
 
 
 ## Getting Started

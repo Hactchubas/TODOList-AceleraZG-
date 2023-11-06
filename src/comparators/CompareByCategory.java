@@ -1,3 +1,7 @@
+package comparators;
+
+import classes.Task;
+
 import java.util.Comparator;
 
 public class CompareByCategory implements Comparator<Task> {

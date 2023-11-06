@@ -1,7 +1,11 @@
+package controllers;
+
+import classes.Task;
+import classes.TasksInfo;
+import comparators.CompareByPriority;
+import controllers.Manager;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -10,11 +14,13 @@ public class Menu {
 
     TasksInfo tasksInfo;
     LinkedList<Task> todoList;
+    LinkedList<Task> doneList;
     Scanner scanner = new Scanner(System.in);
 
     public Menu(TasksInfo tasksInfo){
         this.tasksInfo = tasksInfo;
-        this.todoList = this.tasksInfo.todoList;
+        this.todoList = this.tasksInfo.getTodoList();
+        this.doneList = this.tasksInfo.getDoneList();
     }
 
     public void run(){
@@ -54,7 +60,7 @@ public class Menu {
                     }
 
                     if(!todoList.isEmpty()) {
-                        manager.listTasks(listBy);
+                        manager.listTasks(listBy, todoList);
 
                         while (true) {
                             System.out.println("To see task full info, write it's name or 'quit' to exit: ");
@@ -80,14 +86,13 @@ public class Menu {
                     manager.addTask(newTask);
                     break;
                 case "3":
-                    System.out.println("Task name you'd like to edit: ");
+                    System.out.println("classes.Task name you'd like to edit: ");
                     for (Task task : todoList){
                         System.out.println(task.getName());
                     }
                     String name = scanner.nextLine();
 
                     int editingTaskOfIndex =  manager.findByName(name);
-                    System.out.println(editingTaskOfIndex);
 
 
                     if(editingTaskOfIndex >= 0){
@@ -103,7 +108,11 @@ public class Menu {
                     manager.removeTask(removingTaskOfIndex);
                     break;
                 case "5":
-                    manager.listTasks(3);
+                    if(!doneList.isEmpty()) {
+                        manager.listTasks(3, doneList);
+                    }else {
+                        System.out.println("There are no tasks done");
+                    }
                 case "6":
                     run = false;
                     scanner.close();
@@ -173,7 +182,7 @@ public class Menu {
         return  newTask;
     }
     private int inputRemoveTask(Manager manager){
-        System.out.println("Task name you´d like to remove: ");
+        System.out.println("classes.Task name you´d like to remove: ");
         for (Task task : todoList){
             System.out.println(task.getName());
         }
@@ -275,7 +284,7 @@ public class Menu {
                 break;
             }
         }
-        Collections.sort(todoList, new CompareByPriority());
+        todoList.sort(new CompareByPriority());
 
         return taskAux;
     }

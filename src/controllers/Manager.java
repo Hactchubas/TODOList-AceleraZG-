@@ -1,32 +1,45 @@
+package controllers;
+
+import classes.Persistence;
+import classes.Task;
+import classes.TasksInfo;
+import comparators.CompareByCategory;
+import comparators.CompareByDue;
+import comparators.CompareByPriority;
+import comparators.CompareByStatus;
+
 import java.io.IOException;
 import java.util.*;
 
 public class Manager {
     LinkedList<Task> todoList;
+    LinkedList<Task> doneList;
     String fileRegistered;
     String fileDone;
 
 
     public Manager(TasksInfo tasksInfo) {
-        this.todoList = tasksInfo.todoList;
+        this.todoList = tasksInfo.getTodoList();
         this.todoList.sort(new CompareByStatus());
 
-        this.fileRegistered = tasksInfo.fileRegistered;
-        this.fileDone = tasksInfo.fileDone;
+        this.doneList = tasksInfo.getDoneList();
+        this.todoList.sort(new CompareByDue());
+
+        this.fileRegistered = tasksInfo.getFileRegistered();
+        this.fileDone = tasksInfo.getFileDone();
     }
 
-    public void listTasks(int listBy) {
+    public void listTasks(int listBy, LinkedList<Task> listSorted) {
         if(listBy == 3){
-            todoList.sort(new CompareByDue());
+            listSorted.sort(new CompareByDue());
         }else if(listBy == 2){
-            todoList.sort(new CompareByCategory());
+            listSorted.sort(new CompareByCategory());
         } else if (listBy == 1) {
-            todoList.sort(new CompareByPriority());
+            listSorted.sort(new CompareByPriority());
         } else {
-            todoList.sort(new CompareByStatus());
+            listSorted.sort(new CompareByStatus());
         }
-        // int taskOrderNum = 1;
-        for(Task task : todoList) {
+        for(Task task : listSorted) {
             System.out.println(task);
         }
     }

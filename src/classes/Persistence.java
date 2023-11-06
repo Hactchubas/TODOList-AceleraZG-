@@ -1,3 +1,4 @@
+package classes;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
@@ -45,10 +46,7 @@ public class Persistence {
                             +"/"+task.getPriority()
                             +"/"+task.getCategory()
                             +"/"+task.getStatus());
-//            System.out.println(task.completeInfo());
         }
-//        System.out.println("Done");
-
         printWriter.close();
 
     }
